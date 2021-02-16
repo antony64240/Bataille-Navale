@@ -1,29 +1,34 @@
+package com.AdamMezzas.WarShip;
+
 import java.util.Vector;
 
+public abstract class Navire {
 
+	private static EnsembleNavire ensembleNavire;
+	private Vector<CaseNavire> parts;
+	
+	
+	public Navire(int x,int y) {
+		super();
+		
+	}
 
-/*
- * Classe representant un sous-marin (constitue de parties ou "ShipPart")
- * d'un joueur.
- */
-public class Navire{
-	private Vector<NavirePart> parts;
-	private boolean estPret;
-	private int nbrCase;
+	public static EnsembleNavire getEnsembleNavire() {
+		return ensembleNavire;
+	}
 
-	public Navire(int c) {
-		parts = new Vector<NavirePart>();
-		estPret = false;
-		nbrCase = c;
+	public static void setEnsembleNavire(EnsembleNavire ensembleNavire) {
+		Navire.ensembleNavire = ensembleNavire;
 	}
 	
-	public void addPart(int x, int y, int value)    {parts.add(new NavirePart(x,y,value));}
-	public Vector<NavirePart> getParts()   {return parts;                }
-	public void setTaille(int x)         {nbrCase = x;     			   }
-	public boolean estPret()             {return estPret;              }
-	public void estPret(boolean b)       {estPret = b;                 }
-	public int getTaille()               {return nbrCase;			   }
 	
+	
+	public Vector<CaseNavire> getParts()   {return parts;                }
+
+	public abstract int getTaille();
 
 	
+	
+	
+
 }
