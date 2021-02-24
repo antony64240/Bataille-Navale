@@ -1,4 +1,4 @@
-package com.AdamMezzas.WarShip;
+package com.AdamMezzas.Interfaces;
 
 public class MouseCoord {
 	
@@ -13,7 +13,11 @@ public class MouseCoord {
 		this.y = y;
 	}
 	
-	public void setMouseCoord(int x, int y) {this.x = x;this.y = y;}
+	public MouseCoord() {
+		
+	}
+	
+	public void setMouseCoord(int x, int y) {this.x = (x/36);this.y = (y/16);}
 	public int getMouseCoordX() {return this.x;}
 	public int getMouseCoordY() {return this.y;}
 

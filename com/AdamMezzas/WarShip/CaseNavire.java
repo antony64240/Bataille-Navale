@@ -1,6 +1,7 @@
 package com.AdamMezzas.WarShip;
 
 
+
 public class CaseNavire{
 	private Boolean estDetruit;
 	private int x;
@@ -11,8 +12,9 @@ public class CaseNavire{
 		estDetruit(false);
 		this.x=x;
 		this.y=y;
-		value= i;
+		this.value= i;
 	}
+	
 	public Boolean estDetruit()         	{return estDetruit;			}
 	public void estDetruit(Boolean b)   	{estDetruit = b;   			}
 	public int getX()                   	{return x;         			}
@@ -26,5 +28,15 @@ public class CaseNavire{
 	public String toString() {
 		return "CaseNavire [estDetruit=" + estDetruit + ", x=" + x + ", y=" + y + ", value=" + value + "]";
 	}
+	@Override
+	public boolean equals(Object obj) {
+		CaseNavire x = (CaseNavire) obj;
+		if((this.x==x.getX()) && (this.y == x.getY())) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 	
 }

@@ -1,11 +1,13 @@
-package com.AdamMezzas.WarShip;
-import java.util.Vector;
+package com.AdamMezzas.Interfaces;
 
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
+
+import com.AdamMezzas.WarShip.CaseNavire;
+import com.AdamMezzas.WarShip.EnsembleNavire;
+import com.AdamMezzas.WarShip.Navire;
+
+@SuppressWarnings("serial")
 public class JTableM extends JTable{
 
 	
@@ -19,11 +21,15 @@ public class JTableM extends JTable{
 	
 	
 	public void NavireToTable() {
-		for(int i = 0; i<ensembleNavire.size(); i++) {
-			for(int j = 0; j<ensembleNavire.get(i).getParts().size(); j++) {
-				setTable(ensembleNavire.get(i).getParts().get(j).getX(),ensembleNavire.get(i).getParts().get(j).getY(),ensembleNavire.get(i).getParts().get(j).getValue());				
+		for(Navire e : ensembleNavire) {
+			for(CaseNavire Cn : e.getParts()){
+				setTable(Cn.getX(),Cn.getY(),Cn.getValue());		
+			}
+			for(CaseNavire Ce : e.getAroundParts()) {
+				setTable(Ce.getX(),Ce.getY(),Ce.getValue());
 			}
 		}
+		
 	}
 	
 	public void setTable(int x, int y, int value) {

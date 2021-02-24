@@ -1,20 +1,22 @@
-package com.AdamMezzas.WarShip;
+package com.AdamMezzas.Interfaces;
 
 import java.awt.BorderLayout;
-
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JInternalFrame;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import com.AdamMezzas.WarShip.CaseNavire;
+import com.AdamMezzas.WarShip.Contre_Torpilleur;
+import com.AdamMezzas.WarShip.Croiseur;
+import com.AdamMezzas.WarShip.EnsembleNavire;
+import com.AdamMezzas.WarShip.Porte_Avion;
+import com.AdamMezzas.WarShip.Sous_Marin;
+import com.AdamMezzas.WarShip.Torpilleur;
+
 import javax.swing.JTextField;
 
 
@@ -24,14 +26,15 @@ public class InterfaceClient extends JFrame {
 	private JPanel contentPane;
 	private JButton Btn_Croiser;
 	private JTableM table;
-	MouseCoord PosMouse = new MouseCoord(0,0);
+	MouseCoord PosMouse = new MouseCoord();
 	EnsembleNavire Navire = new EnsembleNavire();
 	Boolean Direction = false;
 	private JTextField textField;
-
-	public InterfaceClient() {
+	private Client Joueur;
+	private String Start = "";
+	public InterfaceClient(Client client, InterfaceJeu interfaceJeu) {
 		
-		
+		this.Joueur = client;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -58,9 +61,10 @@ public class InterfaceClient extends JFrame {
 		panel.add(btn_Sous_Marin);
 		JButton Btn_Direction = new JButton("Horizontal");
 		
-		Btn_Direction.setBounds(325, 194, 89, 23);
+		Btn_Direction.setBounds(314, 194, 89, 23);
 		panel.add(Btn_Direction);	
 		JButton btnValider = new JButton("Valider");
+		btnValider.setEnabled(false);
 		btnValider.setBounds(10, 228, 414, 23);
 		panel.add(btnValider);
 		
@@ -84,24 +88,40 @@ public class InterfaceClient extends JFrame {
 				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
 			}
 		));
-		table.setBounds(7, 29, 280, 160);
-		
+		table.setBounds(0, 0, 280, 160);
 		table.setTableToO();
-		
 		panel.add(table);
 		
 		textField = new JTextField();
-		textField.setBounds(10, 195, 277, 20);
+		textField.setBounds(3, 205, 277, 20);
 		panel.add(textField);
 		textField.setColumns(10);
 		
+	
+		
+		
+		
+		JButton BtnSave = new JButton("Sauvegarder Pos");
+		BtnSave.setBounds(10, 177, 121, 23);
+		panel.add(BtnSave);
+		
+		JButton BtnCharge = new JButton("Charger Pos");
+		BtnCharge.setBounds(151, 177, 121, 23);
+		panel.add(BtnCharge);
+		
 		//FIN D'initialisation de la FRAME /////////////////////////////////////////////////////////////////////////
 		//FIN D'initialisation de la FRAME /////////////////////////////////////////////////////////////////////////
 		//FIN D'initialisation de la FRAME /////////////////////////////////////////////////////////////////////////
 		//FIN D'initialisation de la FRAME /////////////////////////////////////////////////////////////////////////
 		
-		
-		
+	
+//		
+//		Navire.randomPos();
+//		JTableM.setEnsembleNavire(Navire);
+//		table.NavireToTable();
+//		for(Navire e : Navire) {
+//			System.out.println(e.toString());
+//		}
 		
 		//Porte_Avion /////////////////////////////////////////////////////////////////////////
 		//Porte_Avion/////////////////////////////////////////////////////////////////////////
@@ -119,11 +139,13 @@ public class InterfaceClient extends JFrame {
 					JTableM.setEnsembleNavire(Navire);
 					table.NavireToTable();
 					Btn_Porte_Avion.setEnabled(false);
+					System.out.println(Navire.get(0).toString());
 				}else {
 					textField.setText("Le bateau est mal placé !");
 				}
 			}
 		});
+		
 		
 		//Btn_Croiser /////////////////////////////////////////////////////////////////////////
 		//Btn_Croiser /////////////////////////////////////////////////////////////////////////
@@ -132,7 +154,6 @@ public class InterfaceClient extends JFrame {
 		
 		
 		Btn_Croiser.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("deprecation")
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(table.PositionnerShip(PosMouse.getMouseCoordX(),PosMouse.getMouseCoordY(), 4, Direction)&& Btn_Croiser.isEnabled()) {
@@ -193,20 +214,31 @@ public class InterfaceClient extends JFrame {
 		//BOUTON VALIDER  /////////////////////////////////////////////////////////////////////////
 		//BOUTON VALIDER  /////////////////////////////////////////////////////////////////////////
 		
+		if(!Btn_Torpilleur.isEnabled()&&
+				Btn_Contre_Torpilleur.isEnabled()&&
+				Btn_Porte_Avion.isEnabled()&&
+				btn_Sous_Marin.isEnabled()&&
+				Btn_Croiser.isEnabled()) {
+			btnValider.setEnabled(true);
+		}
+		
 		btnValider.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				textField.setText(" ");
-				JTableM.setEnsembleNavire(Navire);
-				table.NavireToTable();
+				
 				try {
-					Navire.Write();
+					Joueur.send(Navire.Write());
+					interfaceJeu.setVisible(true);
+					contentPane.setVisible(false);
+					dispose();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
 			}
 		});
+		
 		//Btn_Torpilleur/////////////////////////////////////////////////////////////////////////
 		//Btn_Torpilleur  /////////////////////////////////////////////////////////////////////////
 		//Btn_Torpilleur  /////////////////////////////////////////////////////////////////////////
@@ -239,7 +271,6 @@ public class InterfaceClient extends JFrame {
 					Btn_Direction.setText("Horizontal");
 					Direction = false;
 				}
-				System.out.println(Direction);
 			}
 		});
 		
@@ -247,9 +278,50 @@ public class InterfaceClient extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PosMouse.setMouseCoord((e.getX()/28), (e.getY()/16));
+				System.out.println(Navire.contains(new CaseNavire(PosMouse.getMouseCoordX(),PosMouse.getMouseCoordY(),2)));
 			}
 		});
 		
+		BtnCharge.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					
+					Navire.read();
+					
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				JTableM.setEnsembleNavire(Navire);
+				table.NavireToTable();
+				Navire.get(0).toString();
+				Btn_Torpilleur.setEnabled(false);
+				Btn_Contre_Torpilleur.setEnabled(false);
+				Btn_Porte_Avion.setEnabled(false);
+				btn_Sous_Marin.setEnabled(false);
+				Btn_Croiser.setEnabled(false);
+				btnValider.setEnabled(true);
+				System.out.println(Navire.toString());
+			}
+		});
+		
+		BtnSave.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					
+					//Navire.Write();
+					Navire.Write();
+					
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		
 		
 		

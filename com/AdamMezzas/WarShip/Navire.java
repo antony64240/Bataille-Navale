@@ -5,10 +5,10 @@ import java.util.Vector;
 public abstract class Navire {
 
 	private static EnsembleNavire ensembleNavire;
-	private Vector<CaseNavire> parts;
+
 	
 	
-	public Navire(int x,int y) {
+	public Navire() {
 		super();
 		
 	}
@@ -22,13 +22,13 @@ public abstract class Navire {
 	}
 	
 	
-	
-	public Vector<CaseNavire> getParts()   {return parts;                }
-
+	public abstract Vector<CaseNavire> getParts();
 	public abstract int getTaille();
+	public Vector<Navire> getNavire() {return Navire.ensembleNavire;		}
+	public abstract Vector<CaseNavire> getAroundParts();
+	public abstract void addPart(int x,int y);
+	public abstract boolean contains(CaseNavire a);
+	public abstract boolean getOrientation();
 
-	
-	
-	
 
 }
