@@ -11,3 +11,7 @@ dernières modifications :
 -Lectures écritures de fichier.
 -Connection BDD postgres.
 -Serialisation et Déserialisation de type JSON entre client et serveur.
+
+
+à faire :
+-Modifier toute les Vector de Thread/Partie en HashMap, l'intérêt est de pouvoir supprimer les parties et les threads clients de façon simple
