@@ -14,4 +14,4 @@ dernières modifications :
 
 
 à faire :
--Modifier toute les Vector de Thread/Partie en HashMap, l'intérêt est de pouvoir supprimer les parties et les threads clients de façon simple
+-Modifier toute les Vector de Thread/Partie en HashMap, l'intérêt est de pouvoir supprimer les parties et les threads clients de façon simple.
